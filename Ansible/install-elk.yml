@@ -1,0 +1,40 @@
+---
+- name: Project 1 Day 1 Task 4 Download and configure a elk-docker container
+  hosts: elk
+  remote_user: azdmin
+  become: true
+  tasks:
+    - name: Configure target VM to use more memory
+      sysctl:
+        name: vm.max_map_count
+        value: 262144
+        state: present
+        reload: yes
+    - name: Install docker.io
+      apt:
+        update_cache: yes
+        name: docker.io
+        state: present
+    - name: Install python-pip3
+      apt:
+        force_apt_get: yes
+        name: python3-pip
+        state: present
+    - name: Install docker using pip
+      pip:
+        name: docker
+        state: present
+    - name: Download the Docker container sebp/elk:761 and Start the container
+      docker_container:
+        name: elk
+        image: sebp/elk:761
+        state: started
+        restart_policy: always
+        published_ports:
+          - 5601:5601
+          - 9200:9200
+          - 5044:5044
+    - name: Start docker service
+      systemd:
+        name: docker
+        enabled: yes

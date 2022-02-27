@@ -1,0 +1,25 @@
+---
+- name: Project 1 Day 2 Part 5 Creating a Play to Install Metricbeat
+  hosts: webservers
+  become: true
+  tasks:
+  - name: Copy deb file
+    copy:
+      src: /etc/ansible/files/metricbeat-7.6.1-amd64.deb
+      dest: /tmp/metricbeat-7.6.1-amd64.deb
+  - name: Install the .deb file using the dpkg command shown below
+    command: sudo dpkg -i /tmp/metricbeat-7.6.1-amd64.deb
+  - name: Copy the Metricbeat configuration file
+    copy:
+      src: /etc/ansible/files/metricbeat-config.yml
+      dest: /etc/metricbeat/metricbeat.yml
+  - name: Run command metricbeat modules enable system
+    command: sudo metricbeat modules enable docker
+  - name: Run command metricbeat setup
+    command: sudo metricbeat setup
+  - name: Run command service metricbeat start
+    command: sudo service metricbeat start
+  - name: Enable the metricbeat service on boot
+    systemd:
+      name: metricbeat
+      enabled: yes

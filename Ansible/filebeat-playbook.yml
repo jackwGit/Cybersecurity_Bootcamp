@@ -1,0 +1,25 @@
+---
+- name: Project 1 Day 2 Part 3 Creating the Filebeat Installation Play
+  hosts: webservers
+  become: true
+  tasks:
+  - name: Copy deb file
+    copy:
+      src: /etc/ansible/files/filebeat-7.6.1-amd64.deb
+      dest: /tmp/filebeat-7.6.1-amd64.deb
+  - name: Install the .deb file using the dpkg command shown below
+    command: sudo dpkg -i /tmp/filebeat-7.6.1-amd64.deb
+  - name: Copy the Filebeat configuration file
+    copy:
+      src: /etc/ansible/files/filebeat-config.yml
+      dest: /etc/filebeat/filebeat.yml
+  - name: Run command filebeat modules enable system
+    command: filebeat modules enable system
+  - name: Run command filebeat setup
+    command: filebeat setup
+  - name: Run command service filebeat start
+    command: service filebeat start
+  - name: Enable the filebeat service on boot
+    systemd:
+      name: filebeat
+      enabled: yes
