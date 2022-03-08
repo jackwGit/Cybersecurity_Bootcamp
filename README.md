@@ -100,6 +100,24 @@ The DVWA application will be used further in the Pen Testing project.
 
 
 
+### ELK Stack monitoring
+
+Purposely generate unsuccessful login attempts to the web-1, and launch a DoS attack to the web-1. Use the Kibana to visualise display and confirm that ELK has picked up these events.
+
+* Unsuccessful login attempts
+
+![Unsuccessful login attempts](Diagram/ELK.Logs.FailedLogin.png)
+
+* DoS attack
+  
+![DoS attack](Diagram/ELK.Metrics.DoS.png)
+
+![DoS attack](Diagram/ELK.Metrics.DoS2.png)
+
+
+
+
+
 ## References
 
 <a id="1">[1]</a> 
